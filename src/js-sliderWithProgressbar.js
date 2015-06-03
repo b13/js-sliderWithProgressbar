@@ -7,8 +7,7 @@ define([
 	, "slick-carousel"
 ], function($) {
 
-	return (function(options) {
-
+	return (function(options, sliderOptions, previewSliderOptions) {
 		var
 			me = this
 			, currentSliderIndex = ''
@@ -23,27 +22,30 @@ define([
 				, $previewSlider   : {}
 
 				, progressInterval : ''
-
-					// slick slider options
-					// see: https://kenwheeler.github.io/slick/
-				, sliderOptions    : {
-					slidesToShow   : 1,
-					slidesToScroll : 1,
-					arrows         : false,
-					fade           : true,
-					autoplay       : true
-				}
-				, previewSliderOptions: {
-					slidesToShow   : 3,
-					slidesToScroll : 1,
-					dots           : false,
-					focusOnSelect  : true,
-					centerMode     : true
-				}
 			}, options);
+
+				// slick slider options
+				// see: https://kenwheeler.github.io/slick/
+			opts.sliderOptions = $.extend({
+				slidesToShow   : 1,
+				slidesToScroll : 1,
+				arrows         : false,
+				fade           : true,
+				autoplay       : true
+			}, sliderOptions);
+
+			opts.previewSliderOptions = $.extend({
+				slidesToShow   : 3,
+				slidesToScroll : 1,
+				dots           : false,
+				focusOnSelect  : true,
+				centerMode     : true
+			}, previewSliderOptions);
 
 
 		function initialize() {
+
+			console.log(opts);
 
 			// init main slider
 			opts.$slider = $(opts.sliderSelector).slick($.extend(opts.sliderOptions, {asNavFor: opts.previewSliderSelector}));
