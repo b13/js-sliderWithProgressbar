@@ -1,0 +1,37 @@
+{
+  "name": "js-sliderWithProgressbar",
+  "description": "Slider With Progressbar",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "author": {
+    "name": "Daniel Sattler",
+    "email": "sattler@b13.de",
+    "url": "b13.de"
+  },
+  "company": {
+    "name": "b:dreizehn",
+    "street": "Breitscheitstraße 65",
+    "zip": "70176",
+    "city": "Stuttgart",
+    "mail": "info@b13.de"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://mit-license.org"
+    }
+  ],
+  "devDependencies": {
+    "grunt": "~0.4.1",
+    "grunt-contrib-uglify": "*"
+  },
+  "dependencies": {
+    "grunt-bower-requirejs": "~2.0.0",
+    "grunt-contrib-concat": "^0.5.1",
+    "grunt-contrib-copy": "^0.5.0",
+    "grunt-contrib-less": "~1.0.0",
+    "grunt-contrib-requirejs": "~0.4.4"
+  }
+}
