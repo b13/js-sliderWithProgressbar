@@ -11363,8 +11363,6 @@ define('js-sliderWithProgressbar',[
 
 		function initialize() {
 
-			console.log(opts);
-
 			// init main slider
 			opts.$slider = $(opts.sliderSelector).slick($.extend(opts.sliderOptions, {asNavFor: opts.previewSliderSelector}));
 
