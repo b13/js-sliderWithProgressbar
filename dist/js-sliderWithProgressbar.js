@@ -7,21 +7,22 @@ define([
 	, "slick-carousel"
 ], function($) {
 
-	return (function(options, sliderOptions, previewSliderOptions) {
+	return (function($el, options, sliderOptions, previewSliderOptions) {
 		var
 			me = this
 			, currentSliderIndex = ''
 
 				// default options
 			, opts = $.extend({
-				sliderSelector          : '.bJS_slider'
-				, previewSliderSelector : '.bJS_previewSlider'
-				, progressBarSelector   : '.bJS_progressBar'
+				progressbarSelector     : '.bJS_progressbar'
+				, slideSelector         : '.bJS_slider'
+				, previewSlideSelector  : '.bJS_previewSlider'
 
-				, $slider          : {}
-				, $previewSlider   : {}
+				, $slider               : {}
+				, $previewSlider        : {}
 
-				, progressInterval : ''
+				, progressInterval      : ''
+				, onCustomProgressbar : null
 			}, options);
 
 				// slick slider options
@@ -46,41 +47,80 @@ define([
 		function initialize() {
 
 			// init main slider
-			opts.$slider = $(opts.sliderSelector).slick($.extend(opts.sliderOptions, {asNavFor: opts.previewSliderSelector}));
-
+			opts.$slider = $el.find(opts.slideSelector).slick($.extend(opts.sliderOptions, {asNavFor: $el.find(opts.previewSlideSelector)}));
 			// init preview slider
-			opts.$previewSlider = $(opts.previewSliderSelector).slick($.extend(opts.previewSliderOptions, {asNavFor: opts.sliderSelector}));
+			opts.$previewSlider = $el.find(opts.previewSlideSelector).slick($.extend(opts.previewSliderOptions, {asNavFor: $el.find(opts.slideSelector)}));
 
-			// update progess bar
-			updateProgressBar(0);
+			// setup progressbar
+			handleProgressbar(opts.$slider[0].slick.slickCurrentSlide());
+
+			// on slider change
+			// update all progressbars and check if default or custom progressbar animation is required
 			opts.$slider.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+				handleProgressbar(nextSlide);
 				currentSliderIndex = nextSlide;
-				updateProgressBar(nextSlide);
 			});
+
 			return me;
 		}
+
+
+			/**
+			 * handle progressbar
+			 */
+		function handleProgressbar(index) {
+
+			var
+				$nextSlide          = opts.$slider.find('[data-slick-index="'+index+'"]')
+				, $nextPreviewSlide = opts.$previewSlider.find('[data-slick-index="'+index+'"]')
+				, $nextProgressbar  = opts.$previewSlider.find('[data-slick-index="'+index+'"]').find(opts.progressbarSelector);
+
+			updateProgressbar(index);
+
+			if ($nextPreviewSlide.data("customprogressbar")) {
+					// do custom progressbar stuff
+				if ($.isFunction(opts.onCustomProgressbar)) {
+					opts.onCustomProgressbar($nextSlide, $nextProgressbar);
+				}
+			} else {
+					// start default progressbar animation
+				startProgressbarAnimation(index);
+			}
+		}
+
 
 
 			/**
 			 * update progress bar
 			 * @param index
 			 */
-		function updateProgressBar(index) {
+		function updateProgressbar(index) {
+			var
+				$slider        = opts.$previewSlider.find('[data-slick-index="'+index+'"]')
+				, $progressbar = opts.$previewSlider.find('[data-slick-index="'+index+'"]').find(opts.progressbarSelector);
+
+			clearInterval(opts.progressInterval);
+			$slider.prevUntil().find(opts.progressbarSelector).css('width', '100%');
+			$slider.nextUntil().find(opts.progressbarSelector).css('width', '0%');
+			$progressbar.css('width', '0%');
+		}
+
+
+			/**
+			 * start progressbar animation
+			 * @param index
+			 */
+		function startProgressbarAnimation(index) {
 			var
 				width           = 0
-				, $slider       = opts.$previewSlider.find('[data-slick-index="'+index+'"]')
-				, $progressBar  = opts.$previewSlider.find('[data-slick-index="'+index+'"]').find(opts.progressBarSelector)
+				, $progressbar  = opts.$previewSlider.find('[data-slick-index="'+index+'"]').find(opts.progressbarSelector)
 				, autoplaySpeed = opts.$slider[0].slick.slickGetOption('autoplaySpeed');
-
-			$slider.prevUntil().find(opts.progressBarSelector).css('width', '100%');
-			$slider.nextUntil().find(opts.progressBarSelector).css('width', '0%');
-			$progressBar.css('width', '0%');
 
 			clearInterval(opts.progressInterval);
 			opts.progressInterval = setInterval(function() {
 				if (width <= 100) {
 					width++;
-					$progressBar.css({width: width + '%'});
+					$progressbar.css({width: width + '%'});
 				} else {
 					clearInterval(opts.progressInterval);
 				}
@@ -89,19 +129,20 @@ define([
 
 
 			/**
-			 * pause slider
+			 * stop slider
 			 */
-		me.pause = function() {
+		me.stop = function() {
 			clearInterval(opts.progressInterval);
 			opts.$slider[0].slick.slickPause();
 		};
 
 
 			/**
-			 * resume slider
+			 * start slider
+			 * @param index
 			 */
-		me.resume = function() {
-			updateProgressBar(currentSliderIndex);
+		me.start = function(index) {
+			updateProgressbar(index ? index : currentSliderIndex);
 			opts.$slider[0].slick.slickPlay();
 		};
 

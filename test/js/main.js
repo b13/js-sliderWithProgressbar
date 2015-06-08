@@ -17,15 +17,13 @@ define('main',[
 
 		function initialize() {
 
+			me.slider = [];
+
 				// init slider
 			require(['js-sliderWithProgressbar'], function(slider) {
-				me.slider = new slider();
-
-					// stop slider
-				//me.slider.pause();
-
-					// resume slider
-				//me.slider.resume();
+				$('.bJS_ct_slider').each(function() {
+					me.slider.push(new slider($(this), {}, {}));
+				});
 			});
 
 			return me;
