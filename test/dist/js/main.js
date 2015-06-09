@@ -11398,7 +11398,7 @@ define('js-sliderWithProgressbar',[
 			if ($nextPreviewSlide.data("customprogressbar")) {
 					// do custom progressbar stuff
 				if ($.isFunction(opts.onCustomProgressbar)) {
-					opts.onCustomProgressbar($nextSlide, $nextProgressbar);
+					opts.onCustomProgressbar($nextSlide, $nextProgressbar, me);
 				}
 			} else {
 					// start default progressbar animation
@@ -11455,13 +11455,17 @@ define('js-sliderWithProgressbar',[
 		};
 
 
+
 			/**
 			 * start slider
 			 * @param index
 			 */
 		me.start = function(index) {
+			console.log("start");
+			console.log(index ? index : currentSliderIndex);
 			updateProgressbar(index ? index : currentSliderIndex);
 			opts.$slider[0].slick.slickPlay();
+			console.log("play called");
 		};
 
 			/**
@@ -11474,6 +11478,8 @@ define('js-sliderWithProgressbar',[
 		return initialize();
 	});
 });
+
+
 define('main',[
 ], function() {
 	function initialize() {
