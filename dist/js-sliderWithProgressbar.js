@@ -22,7 +22,8 @@ define([
 				, $previewSlider        : {}
 
 				, progressInterval      : ''
-				, onCustomProgressbar : null
+				, onCustomProgressbar   : null
+				, paginationActiveClassName : 'active'
 			}, options);
 
 				// slick slider options
@@ -95,14 +96,10 @@ define([
 			 * @param index
 			 */
 		function updateProgressbar(index) {
-			var
-				$slider        = opts.$previewSlider.find('[data-slick-index="'+index+'"]')
-				, $progressbar = opts.$previewSlider.find('[data-slick-index="'+index+'"]').find(opts.progressbarSelector);
+			var $slider = opts.$previewSlider.find('[data-slick-index="'+index+'"]');
 
-			clearInterval(opts.progressInterval);
-			$slider.prevUntil().find(opts.progressbarSelector).css('width', '100%');
-			$slider.nextUntil().find(opts.progressbarSelector).css('width', '0%');
-			$progressbar.css('width', '0%');
+			$slider.addClass(opts.paginationActiveClassName).siblings().removeClass(opts.paginationActiveClassName);
+			opts.$previewSlider.find(opts.progressbarSelector).css('width', '0%');
 		}
 
 
