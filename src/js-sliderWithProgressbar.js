@@ -134,17 +134,13 @@ define([
 		};
 
 
-
 			/**
 			 * start slider
 			 * @param index
 			 */
 		me.start = function(index) {
-			console.log("start");
-			console.log(index ? index : currentSliderIndex);
 			updateProgressbar(index ? index : currentSliderIndex);
 			opts.$slider[0].slick.slickPlay();
-			console.log("play called");
 		};
 
 			/**
