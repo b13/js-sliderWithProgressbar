@@ -2,7 +2,7 @@
   "name": "js-sliderWithProgressbar",
   "description": "Slider with Progressbar",
   "main": "dist/js-sliderWithProgressbar.js",
-  "version": "v0.2.4",
+  "version": "V0.3",
   "dependencies": {
     "jquery": ">= 1.8.0",
     "slick-carousel": "~1.5.5",
