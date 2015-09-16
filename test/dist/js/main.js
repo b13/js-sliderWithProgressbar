@@ -11328,7 +11328,7 @@ define('js-sliderWithProgressbar',[
 	return (function($el, options, sliderOptions, previewSliderOptions) {
 		var
 			me = this
-			, currentSliderIndex = ''
+			, currentSliderIndex = 0
 
 				// default options
 			, opts = $.extend({
@@ -11403,7 +11403,7 @@ define('js-sliderWithProgressbar',[
 				}
 			} else {
 					// start default progressbar animation
-				startProgressbarAnimation(index);
+				me.startProgressbarAnimation(index);
 			}
 		}
 
@@ -11425,7 +11425,7 @@ define('js-sliderWithProgressbar',[
 			 * start progressbar animation
 			 * @param index
 			 */
-		function startProgressbarAnimation(index) {
+		me.startProgressbarAnimation = function(index) {
 			var
 				width           = 0
 				, $progressbar  = opts.$previewSlider.find('[data-slick-index="'+index+'"]').find(opts.progressbarSelector)
@@ -11440,7 +11440,7 @@ define('js-sliderWithProgressbar',[
 					clearInterval(opts.progressInterval);
 				}
 			}, (autoplaySpeed/100));
-		}
+		};
 
 
 			/**
@@ -11452,17 +11452,13 @@ define('js-sliderWithProgressbar',[
 		};
 
 
-
 			/**
 			 * start slider
 			 * @param index
 			 */
 		me.start = function(index) {
-			console.log("start");
-			console.log(index ? index : currentSliderIndex);
 			updateProgressbar(index ? index : currentSliderIndex);
 			opts.$slider[0].slick.slickPlay();
-			console.log("play called");
 		};
 
 			/**
