@@ -85,7 +85,7 @@ define([
 				}
 			} else {
 					// start default progressbar animation
-				startProgressbarAnimation(index);
+				me.startProgressbarAnimation(index);
 			}
 		}
 
@@ -107,7 +107,7 @@ define([
 			 * start progressbar animation
 			 * @param index
 			 */
-		function startProgressbarAnimation(index) {
+		me.startProgressbarAnimation = function(index) {
 			var
 				width           = 0
 				, $progressbar  = opts.$previewSlider.find('[data-slick-index="'+index+'"]').find(opts.progressbarSelector)
@@ -122,7 +122,7 @@ define([
 					clearInterval(opts.progressInterval);
 				}
 			}, (autoplaySpeed/100));
-		}
+		};
 
 
 			/**
