@@ -10,7 +10,7 @@ define([
 	return (function($el, options, sliderOptions, previewSliderOptions) {
 		var
 			me = this
-			, currentSliderIndex = ''
+			, currentSliderIndex = 0
 
 				// default options
 			, opts = $.extend({
