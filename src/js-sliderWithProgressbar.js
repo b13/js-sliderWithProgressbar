@@ -1,5 +1,5 @@
 /**
- * image video slider
+ * Slider with Progressbar
  */
 
 define([
@@ -55,9 +55,9 @@ define([
 			// setup progressbar
 			handleProgressbar(opts.$slider[0].slick.slickCurrentSlide());
 
-			// on slider change
+			// on slider init/change
 			// update all progressbars and check if default or custom progressbar animation is required
-			opts.$slider.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+			opts.$slider.on('init, beforeChange', function(event, slick, currentSlide, nextSlide) {
 				handleProgressbar(nextSlide);
 				currentSliderIndex = nextSlide;
 			});
